@@ -1,5 +1,4 @@
 import { assertNotNull } from "@subsquid/util-internal";
-import { lookupArchive } from "@subsquid/archive-registry";
 import {
   BlockHeader,
   DataHandlerContext,
@@ -14,18 +13,16 @@ import { events } from "./types";
 
 export const processor = new SubstrateBatchProcessor()
   .setDataSource({
-    // Lookup archive by the network name in Subsquid registry
-    // See https://docs.subsquid.io/substrate-indexing/supported-networks/
-    archive: lookupArchive("rococo", { release: "ArrowSquid" }),
     // Chain RPC endpoint is required on Substrate for metadata and real-time updates
     chain: {
       // Set via .env for local runs or via secrets when deploying to Subsquid Cloud
       // https://docs.subsquid.io/deploy-squid/env-variables/
-      url: assertNotNull(process.env.RPC_ROCOCO_HTTP),
+      url: assertNotNull(process.env.RPC_ROCOCO_WS),
       // More RPC connection options at https://docs.subsquid.io/substrate-indexing/setup/general/#set-data-source
       rateLimit: 10,
     },
   })
+  .setBlockRange({ from: Number(process.env.BLOCK_START) || 0 })
   .addEvent({
     name: [events.balances.transfer.name],
     extrinsic: true,
