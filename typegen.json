@@ -1,11 +1,9 @@
 {
   "outDir": "src/types",
-  "specVersions": "https://v2.archive.subsquid.io/metadata/kusama",
+  "specVersions": "https://v2.archive.subsquid.io/metadata/rococo",
   "pallets": {
     "Balances": {
-      "events": [
-        "Transfer"
-      ],
+      "events": ["Transfer"],
       "calls": [],
       "storage": [],
       "constants": []
